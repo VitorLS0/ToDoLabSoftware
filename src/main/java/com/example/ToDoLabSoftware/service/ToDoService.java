@@ -14,7 +14,7 @@ public class ToDoService {
     @Autowired
     ToDoRepository repository;
 
-    public List<ToDo> getAll() {
+    public List<ToDo> getAllItems() {
         ArrayList<ToDo> todoList = new ArrayList<>();
         repository.findAll().forEach(todo -> todoList.add(todo));
 
@@ -32,7 +32,7 @@ public class ToDoService {
         return save(todo);
     }
 
-    boolean save(ToDo todo) {
+    public boolean save(ToDo todo) {
         ToDo updateObj = repository.save(todo);
 
         return getItemById(updateObj.getId()) != null;
