@@ -77,8 +77,9 @@ public class ToDoController {
     public String deleteItem(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         if (service.deleteItem(id)) {
             redirectAttributes.addFlashAttribute("message", "Delete successful");
+        } else { // Added else clause to fix logic
+            redirectAttributes.addFlashAttribute("message", "Failed to delete");
         }
-        redirectAttributes.addFlashAttribute("message", "Failed to delete");
         return "redirect:/viewList";
     }
 }
