@@ -1,25 +1,33 @@
-import styles from "./Task.module.css";
+// Task.js
+import styles from './Task.module.css';
 
-const Task = () => {
+interface TaskProps {
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: string;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+const Task: React.FC<TaskProps> = ({ title, description, dueDate, priority, onEdit, onDelete }) => {
   return (
     <div className={styles.task}>
       <div>
-        <h2>Title</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi,
-          dolores fugiat! Placeat ea id excepturi voluptatum beatae non
-          repudiandae quisquam!
-        </p>
+        <h2>{title}</h2>
+        <p>{description}</p>
       </div>
 
       <div className={styles.taskDetails}>
-        <div className={styles.priority}></div>
-        <h4>Due Date: 23/05/24</h4>
+        <div className={`${styles.priority} ${styles[priority.toLowerCase()]}`}>
+          {priority}
+        </div>
+        <h4>Due Date: {dueDate}</h4>
       </div>
 
       <div className={styles.taskActions}>
-        <button>Edit</button>
-        <button>Delete</button>
+        <button onClick={onEdit}>Edit</button>
+        <button onClick={onDelete}>Delete</button>
       </div>
     </div>
   );

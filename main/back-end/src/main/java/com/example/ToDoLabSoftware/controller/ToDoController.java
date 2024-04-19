@@ -1,17 +1,16 @@
 package com.example.ToDoLabSoftware.controller;
 
-
 import com.example.ToDoLabSoftware.model.ToDo;
-
 import com.example.ToDoLabSoftware.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class ToDoController {
@@ -19,67 +18,50 @@ public class ToDoController {
     @Autowired
     private ToDoService service;
 
-    @GetMapping({"/", "viewList"})
-    public String viewAllItems(Model model, @ModelAttribute("message") String message) {
-        model.addAttribute ("list", service.getAllItems());
-        model.addAttribute("msg", message);
+    @GetMapping("/listAll")
+    public ResponseEntity<List<ToDo>> listAll() {
+        List<ToDo> toDoList = service.getAllItems();
 
-        return "ViewList";
+        return ResponseEntity.ok(toDoList);
     }
 
-    @PostMapping("/updateStatus/{id}")
-    public String updateStatus(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        if (service.updateStatus(id)) {
-            redirectAttributes.addFlashAttribute("message", "Success");
-            return "redirect:/viewList";
-        }
-        redirectAttributes.addFlashAttribute("message", "Update failed");
-        return "redirect:/viewList";
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<ToDo> findById(@PathVariable Long id) {
+        ToDo todo = service.getItemById(id);
+
+        return ResponseEntity.ok(todo);
     }
 
-    @GetMapping("/addItem")
-    public String addItem(Model model) {
-        model.addAttribute("todo", new ToDo());
-
-        return "AddItem";
-    }
-
-    @PostMapping("/saveItem")
-    public String saveItem(ToDo todo, RedirectAttributes redirectAttributes) {
-        if (service.save(todo)) {
-            redirectAttributes.addFlashAttribute("message", "Save successful");
-            return "redirect:/viewList";
-        }
-
-        redirectAttributes.addFlashAttribute("message", "Failed to save");
-        return "redirect:/AddItem";
-    }
-
-    @GetMapping("/editItem/{id}")
-    public String editItem(@PathVariable Long id, Model model) {
-        model.addAttribute("todo", service.getItemById(id));
-
-        return "EditItem";
-    }
-
-    @PostMapping("/editSaveItem")
-    public String editSaveItem(ToDo todo, RedirectAttributes redirectAttributes) {
-        if (service.save(todo)) {
+    @PostMapping("/editById/{id}")
+    public String editById(@PathVariable Long id, @ModelAttribute("todo") ToDo todo, RedirectAttributes redirectAttributes) {
+        todo.setId(id);
+        boolean edited = service.save(todo);
+        if (edited) {
             redirectAttributes.addFlashAttribute("message", "Edit successful");
-            return "redirect:/viewList";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Failed to edit");
         }
-
-        redirectAttributes.addFlashAttribute("message", "Failed to edit");
-        return "redirect:/editItem/" + todo.getId();
+        return "redirect:/listAll";
     }
 
-    @GetMapping("/deleteItem/{id}")
-    public String deleteItem(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        if (service.deleteItem(id)) {
+    @PostMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        boolean deleted = service.deleteItem(id);
+        if (deleted) {
             redirectAttributes.addFlashAttribute("message", "Delete successful");
-        } else { // Added else clause to fix logic
+        } else {
             redirectAttributes.addFlashAttribute("message", "Failed to delete");
         }
-        return "redirect:/viewList";
+        return "redirect:/listAll";
+    }
+
+    @PostMapping("/createTask")
+    public ResponseEntity<ToDo> createTask(@RequestBody ToDo todo) {
+        boolean taskCreated = service.save(todo);
+        if (taskCreated) {
+            return ResponseEntity.ok(todo);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
