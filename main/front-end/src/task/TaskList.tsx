@@ -7,7 +7,7 @@ const TaskList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/api/viewList')
+    fetch('http://localhost:8080/api/listAll')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch tasks');

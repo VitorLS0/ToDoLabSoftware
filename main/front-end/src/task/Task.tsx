@@ -19,7 +19,7 @@ const Task: React.FC<TaskProps> = ({ title, description, dueDate, priority, onEd
       </div>
 
       <div className={styles.taskDetails}>
-        <div className={`${styles.priority} ${styles[priority.toLowerCase()]}`}>
+        <div className={styles.priority}>
           {priority}
         </div>
         <h4>Due Date: {dueDate}</h4>
