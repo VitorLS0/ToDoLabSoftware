@@ -11,3 +11,8 @@
   z-index: 1000;
   background-color: rgb(0, 0, 0);
 }
+
+.input {
+  margin: 10px;
+}
+

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +64,9 @@ public class ToDoService {
         LocalDate today = LocalDate.now();
         switch (task.getTaskType()) {
             case SPECIFIC_DATE:
-                if (task.getDate() != null) {
-                    LocalDate taskDate = task.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (task.getDateTime() != null) {
+                    LocalDateTime taskDateTime = task.getDateTime();
+                    LocalDate taskDate = taskDateTime.toLocalDate();
                     long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(today, taskDate);
                     if (daysBetween < 0) {
                         details.append("Days Late: ").append(Math.abs(daysBetween)).append("\n");

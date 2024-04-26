@@ -1,8 +1,7 @@
 package com.example.ToDoLabSoftware.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="todo")
@@ -16,7 +15,10 @@ public class ToDo {
     private String title;
 
     @Column
-    private Date date; // For tasks with a specific conclusion date
+    private String description;
+
+    @Column
+    private LocalDateTime dateTime; // For tasks with a specific conclusion date and time
 
     @Column
     private Integer daysUntilTerm; // For tasks with counted days until term
@@ -37,11 +39,11 @@ public class ToDo {
     }
 
     // Getters and setters
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,12 +55,20 @@ public class ToDo {
         this.title = title;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public Integer getDaysUntilTerm() {

@@ -1,9 +1,9 @@
+/* Task.module.css */
 .task {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* border: 1px solid #000; */
   border-radius: 10px;
   padding: 10px;
   margin: 10px;
@@ -16,6 +16,7 @@
 .task h2 {
   margin-top: 1rem;
 }
+
 .task p {
   margin-bottom: 0;
 }
@@ -37,5 +38,25 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #c52b44;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Define color classes for each priority type */
+.priorityHigh {
+  background-color: #c52b44; /* Red for High priority */
+}
+
+.priorityMedium {
+  background-color: #f9a825; /* Orange for Medium priority */
+}
+
+.priorityLow {
+  background-color: #4caf50; /* Green for Low priority */
+}
+
+.priorityDefault {
+  background-color: #bdbdbd; /* Default color for unspecified priority */
 }

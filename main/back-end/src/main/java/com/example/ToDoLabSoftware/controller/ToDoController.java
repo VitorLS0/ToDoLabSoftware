@@ -32,27 +32,25 @@ public class ToDoController {
         return ResponseEntity.ok(todo);
     }
 
-    @PostMapping("/editById/{id}")
-    public String editById(@PathVariable Long id, @ModelAttribute("todo") ToDo todo, RedirectAttributes redirectAttributes) {
+    @PutMapping("/editById/{id}")
+    public ResponseEntity<String> editById(@PathVariable Long id, @RequestBody ToDo todo) {
         todo.setId(id);
         boolean edited = service.save(todo);
         if (edited) {
-            redirectAttributes.addFlashAttribute("message", "Edit successful");
+            return ResponseEntity.ok("Edit successful");
         } else {
-            redirectAttributes.addFlashAttribute("message", "Failed to edit");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to edit");
         }
-        return "redirect:/listAll";
     }
 
-    @PostMapping("/deleteById/{id}")
-    public String deleteById(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
         boolean deleted = service.deleteItem(id);
         if (deleted) {
-            redirectAttributes.addFlashAttribute("message", "Delete successful");
+            return ResponseEntity.ok("Delete successful");
         } else {
-            redirectAttributes.addFlashAttribute("message", "Failed to delete");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete");
         }
-        return "redirect:/listAll";
     }
 
     @PostMapping("/createTask")

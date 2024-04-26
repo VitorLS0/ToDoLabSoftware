@@ -1,47 +1,53 @@
-// TaskList.js
-import { useEffect, useState } from 'react';
-import Task from './Task';
+// TaskList.tsx
+import React, { useEffect, useState } from 'react';
+import Task from "./Task";
 
-const TaskList = () => {
-  const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState(null);
+interface TaskData {
+  id: number;
+  title: string;
+  description: string;
+  dateTime: string;
+  daysUntilTerm: number;
+  status: string;
+  priority: string;
+}
+
+const TaskList: React.FC = () => {
+  const [tasks, setTasks] = useState<TaskData[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/listAll')
-      .then(response => {
+    fetch("http://localhost:8080/api/listAll")
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch tasks');
+          throw new Error("Failed to fetch tasks");
         }
         return response.json();
       })
-      .then(data => setTasks(data))
-      .catch(error => setError(error.message));
+      .then((data: TaskData[]) => {
+        setTasks(data);
+      })
+      .catch((error: Error) => setError(error.message));
+      console.log(tasks);
   }, []);
-
-  const handleEdit = (id: number) => {
-    // Implement edit functionality
-    console.log(`Editing task with ID ${id}`);
-  };
-
-  const handleDelete = (id: number) => {
-    // Implement delete functionality
-    console.log(`Deleting task with ID ${id}`);
-  };
 
   return (
     <div>
       {error ? (
         <p>Error: {error}</p>
       ) : (
-        tasks.map((task: { id: number, title: string, description: string, dueDate: string, priority: string }) => (
+        tasks.map(task => (
           <Task
             key={task.id}
+            id={task.id}
             title={task.title}
             description={task.description}
-            dueDate={task.dueDate}
+            dateTime={task.dateTime}
+            daysUntilTerm={task.daysUntilTerm}
+            status={task.status}
             priority={task.priority}
-            onEdit={() => handleEdit(task.id)}
-            onDelete={() => handleDelete(task.id)}
+            onEdit={() => console.log(`Editing task ${task.id}`)}
+            onDelete={() => console.log(`Deleting task ${task.id}`)}
           />
         ))
       )}
