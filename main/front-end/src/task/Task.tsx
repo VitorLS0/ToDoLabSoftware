@@ -17,7 +17,6 @@ const Task: React.FC<TaskProps> = ({
   description,
   dateTime,
   daysUntilTerm,
-  status,
   priority,
   onEdit,
   onDelete,
@@ -38,7 +37,7 @@ const Task: React.FC<TaskProps> = ({
   let formattedDateTime = '';
   if (dateTime) {
     try {
-      formattedDateTime = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(dateTime));
+      formattedDateTime = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(dateTime));
     } catch (error) {
       console.error('Invalid dateTime format:', dateTime, error);
       formattedDateTime = 'Invalid date'; // Or handle it in another appropriate way
@@ -54,8 +53,8 @@ const Task: React.FC<TaskProps> = ({
 
       <div className={styles.taskDetails}>
         <div className={`${styles.priority} ${priorityColorClass(priority)}`}></div>
-        <h4>Due: {formattedDateTime}</h4>
-        <h5>Status: {status} - {daysUntilTerm} days left</h5>
+        <h4>Prazo: {formattedDateTime}</h4>
+        <h5>- {daysUntilTerm} dias restantes</h5>
       </div>
 
       <div className={styles.taskActions}>

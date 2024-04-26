@@ -1,22 +1,27 @@
 // TaskList.tsx
 import React, { useEffect, useState } from 'react';
 import Task from "./Task";
-
-interface TaskData {
-  id: number;
-  title: string;
-  description: string;
-  dateTime: string;
-  daysUntilTerm: number;
-  status: string;
-  priority: string;
-}
+import axios from 'axios'; // Import axios for making HTTP requests
 
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  interface TaskData {
+    id: number;
+    title: string;
+    description: string;
+    dateTime: string;
+    daysUntilTerm: number;
+    status: string;
+    priority: string;
+  }  
+
   useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = () => {
     fetch("http://localhost:8080/api/listAll")
       .then((response) => {
         if (!response.ok) {
@@ -28,8 +33,18 @@ const TaskList: React.FC = () => {
         setTasks(data);
       })
       .catch((error: Error) => setError(error.message));
-      console.log(tasks);
-  }, []);
+  };
+
+  const onDelete = (id: number) => {
+    axios.delete(`http://localhost:8080/api/deleteById/${id}`)
+      .then(() => {
+        fetchTasks(); // Fetch tasks again after deletion
+      })
+      .catch((error: any) => {
+        console.error('Failed to delete task:', error);
+        setError('Failed to delete task');
+      });
+  };
 
   return (
     <div>
@@ -47,7 +62,7 @@ const TaskList: React.FC = () => {
             status={task.status}
             priority={task.priority}
             onEdit={() => console.log(`Editing task ${task.id}`)}
-            onDelete={() => console.log(`Deleting task ${task.id}`)}
+            onDelete={() => onDelete(task.id)}
           />
         ))
       )}
