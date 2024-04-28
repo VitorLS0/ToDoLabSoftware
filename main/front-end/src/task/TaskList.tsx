@@ -1,7 +1,6 @@
-// TaskList.tsx
 import React, { useEffect, useState } from 'react';
 import Task from "./Task";
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<TaskData[]>([]);
@@ -15,6 +14,7 @@ const TaskList: React.FC = () => {
     daysUntilTerm: number;
     status: string;
     priority: string;
+    completed: boolean;
   }  
 
   useEffect(() => {
@@ -22,27 +22,35 @@ const TaskList: React.FC = () => {
   }, []);
 
   const fetchTasks = () => {
-    fetch("http://localhost:8080/api/listAll")
+    axios.get("http://localhost:8080/api/listAll")
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch tasks");
-        }
-        return response.json();
+        setTasks(response.data);
       })
-      .then((data: TaskData[]) => {
-        setTasks(data);
-      })
-      .catch((error: Error) => setError(error.message));
+      .catch((error) => {
+        console.error('Failed to fetch tasks:', error);
+        setError('Failed to fetch tasks');
+      });
   };
 
   const onDelete = (id: number) => {
     axios.delete(`http://localhost:8080/api/deleteById/${id}`)
       .then(() => {
-        fetchTasks(); // Fetch tasks again after deletion
+        fetchTasks(); 
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to delete task:', error);
         setError('Failed to delete task');
+      });
+  };
+
+  const onComplete = (id: number) => {
+    axios.put(`http://localhost:8080/api/completeById/${id}`)
+      .then(() => {
+        fetchTasks();
+      })
+      .catch((error) => {
+        console.error('Failed to mark task as completed:', error);
+        setError('Failed to mark task as completed');
       });
   };
 
@@ -61,8 +69,10 @@ const TaskList: React.FC = () => {
             daysUntilTerm={task.daysUntilTerm}
             status={task.status}
             priority={task.priority}
-            onEdit={() => console.log(`Editing task ${task.id}`)}
+            completed={task.completed}
+            onEdit={() => fetchTasks()}
             onDelete={() => onDelete(task.id)}
+            onComplete={() => onComplete(task.id)}
           />
         ))
       )}
