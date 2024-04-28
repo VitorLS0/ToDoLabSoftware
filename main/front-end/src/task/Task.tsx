@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./Task.module.css";
+import DeleteIcon from "../components/DeleteIcon";
 
 interface TaskProps {
   id: number;
@@ -109,36 +110,57 @@ const Task: React.FC<TaskProps> = ({
       ) : (
         <>
           <div>
-            <h2>{title}</h2>
+            <div className={styles.taskTop}>
+              <h2>{title}</h2>
+              <div className={styles.flexRow}>
+                <div
+                  className={`${styles.priority} ${priorityColorClass(
+                    priority
+                  )}`}
+                ></div>
+                {!completed && (
+                  <button className={styles.completeBtn} onClick={onComplete}>
+                    Concluir
+                  </button>
+                )}
+              </div>
+            </div>
             <p>{description}</p>
-          </div>
-
-          <div className={styles.taskDetails}>
-            <div
-              className={`${styles.priority} ${priorityColorClass(priority)}`}
-            ></div>
-            <h4>Prazo: {formattedDateTime}</h4>
-            <h5>- {daysUntilTerm} dias restantes</h5>
           </div>
 
           <div className={styles.taskActions}>
             {completed ? (
               <>
-                <button className={styles.completeBtn} disabled>Concluído</button>
-                <button className={styles.deleteBtn} onClick={onDelete}>Deletar</button>
+                <div className={styles.flexRow2}>
+                  <div className={styles.taskDetails}>
+                    <button className={styles.deleteBtn} onClick={onDelete}>
+                      <DeleteIcon />
+                    </button>
+                    <button className={styles.completeBtn} disabled>
+                      Concluído
+                    </button>
+                  </div>
+                  <div className={styles.taskDetails}>
+                    <h4>Prazo: {formattedDateTime}</h4>
+                    <h5>- {daysUntilTerm} dias restantes</h5>
+                  </div>
+                </div>
               </>
             ) : (
               <>
-                {!completed && (
-                  <button
-                    className={styles.completeBtn}
-                    onClick={onComplete}
-                  >
-                    Concluir Tarefa
-                  </button>
-                )}
-                <button onClick={handleEdit}>Editar</button>
-                <button className={styles.deleteBtn} onClick={onDelete}>Deletar</button>
+                <div className={styles.flexRow2}>
+                  <div className={styles.taskDetails}>
+                    <button className={styles.deleteBtn} onClick={onDelete}>
+                      <DeleteIcon />
+                    </button>
+                    <button onClick={handleEdit}>Editar</button>
+                  </div>
+
+                  <div className={styles.taskDetails}>
+                    <h4>Prazo: {formattedDateTime}</h4>
+                    <h5>- {daysUntilTerm} dias restantes</h5>
+                  </div>
+                </div>
               </>
             )}
           </div>
