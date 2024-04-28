@@ -37,9 +37,9 @@ public class ToDoController {
         todo.setId(id);
         boolean edited = service.save(todo);
         if (edited) {
-            return ResponseEntity.ok("Edit successful");
+            return ResponseEntity.ok("Editada com sucesso");
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to edit");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao editar");
         }
     }
 
@@ -47,9 +47,9 @@ public class ToDoController {
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         boolean deleted = service.deleteItem(id);
         if (deleted) {
-            return ResponseEntity.ok("Delete successful");
+            return ResponseEntity.ok("Deletada com sucesso");
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao deletar");
         }
     }
 
@@ -62,4 +62,15 @@ public class ToDoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    // In ToDoController.java
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<String> completeTask(@PathVariable Long id) {
+        if (service.markTaskAsCompleted(id)) {
+            return ResponseEntity.ok("Tarefa marcada como completa");
+        } else {
+            return ResponseEntity.badRequest().body("Tarefa não encontrada");
+        }
+    }
+
 }

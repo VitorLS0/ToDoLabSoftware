@@ -50,15 +50,14 @@ const Header = () => {
           </div>
         );
       case "NO_ESTIMATED_TIME":
-        return null; // No additional fields for this type
+        return null;
       default:
-        return null; // By default, no additional fields are rendered
+        return null;
     }
   };
 
   const createTask = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Check if date or time is empty and alert the user
 
     const dateTime = dueDate && dueTime ? `${dueDate}T${dueTime}` : undefined;
 
@@ -84,8 +83,8 @@ const Header = () => {
       })
       .then((data) => {
         console.log("Task created:", data);
-        // Optionally reset form or give user feedback
-        setShowForm(false); // Close the form on successful submission
+        setShowForm(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error creating task:", error);
@@ -94,18 +93,18 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <button onClick={toggleForm}>New Task</button>
+      <button onClick={toggleForm}>Nova Tarefa</button>
       {showForm && (
         <form onSubmit={(e) => createTask(e)}>
           <input
             type="text"
-            placeholder="Task Title"
+            placeholder="Título"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Task Description"
+            placeholder="Descrição"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -113,20 +112,20 @@ const Header = () => {
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
-            <option value="HIGH">High</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="LOW">Low</option>
+            <option value="HIGH">Alta</option>
+            <option value="MEDIUM">Média</option>
+            <option value="LOW">Baixa</option>
           </select>
 
           <select value={status} onChange={handleTaskTypeChange}>
-            <option value="">Select Task Type</option>
-            <option value="SPECIFIC_DATE">Specific Date</option>
-            <option value="COUNTED_DAYS">Counted Days</option>
-            <option value="NO_ESTIMATED_TIME">No Estimated Time</option>
+            <option value="">Selecionar tipo de tarefa</option>
+            <option value="NO_ESTIMATED_TIME">Sem prazo</option>
+            <option value="SPECIFIC_DATE">Data específica</option>
+            <option value="COUNTED_DAYS">Dias até o prazo</option>
           </select>
 
           {status && renderFormFields()}
-          <button type="submit">Create Task</button>
+          <button type="submit">Criar Tarefa</button>
         </form>
       )}
     </header>

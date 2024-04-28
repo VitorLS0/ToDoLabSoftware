@@ -1,4 +1,3 @@
-/* Task.module.css */
 .task {
   display: flex;
   flex-direction: column;
@@ -32,6 +31,7 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
+  justify-content: start;
 }
 
 .priority {
@@ -44,19 +44,35 @@
   font-weight: bold;
 }
 
-/* Define color classes for each priority type */
 .priorityHigh {
-  background-color: #c52b44; /* Red for High priority */
+  background-color: #c52b44;
 }
 
 .priorityMedium {
-  background-color: #f9a825; /* Orange for Medium priority */
+  background-color: #f9a825;
 }
 
 .priorityLow {
-  background-color: #4caf50; /* Green for Low priority */
+  background-color: #4caf50;
 }
 
 .priorityDefault {
-  background-color: #bdbdbd; /* Default color for unspecified priority */
+  background-color: #bdbdbd;
+}
+
+.completed{
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+.deleteBtn:hover {
+  border-color: #c52b44;
+}
+
+.completeBtn:hover {
+  border-color: #4caf50;
+}
+
+.completeBtn:disabled:hover {
+  border-color: #aaa;
 }

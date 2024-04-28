@@ -26,6 +26,17 @@ public class ToDo {
     @Column
     private String status;
 
+    @Column
+    private boolean completed;
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
     @Enumerated(EnumType.STRING)
     @Column
     private TaskType taskType; // To indicate the type of task

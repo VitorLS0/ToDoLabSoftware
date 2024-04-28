@@ -35,6 +35,17 @@ public class ToDoService {
         return save(todo);
     }
 
+    // In ToDoService.java
+    public boolean markTaskAsCompleted(Long id) {
+        ToDo task = repository.findById(id).orElse(null);
+        if (task != null) {
+            task.setCompleted(true);
+            repository.save(task);
+            return true;
+        }
+        return false;
+    }
+
     public boolean save(ToDo todo) {
         ToDo updateObj = repository.save(todo);
 
@@ -47,6 +58,16 @@ public class ToDoService {
             return !repository.existsById(id);
         }
         return false;
+    }
+
+    public ToDo updateTask(Long id, ToDo updatedTask) {
+        return repository.findById(id)
+                .map(task -> {
+                    if (updatedTask.getTitle() != null) task.setTitle(updatedTask.getTitle());
+                    if (updatedTask.getDescription() != null) task.setDescription(updatedTask.getDescription());
+                    return repository.save(task);
+                })
+                .orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
     public String getTaskDetails(Long id) {
