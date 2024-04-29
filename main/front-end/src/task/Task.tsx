@@ -31,6 +31,7 @@ const Task: React.FC<TaskProps> = ({
   const [editing, setEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [editedDescription, setEditedDescription] = useState(description);
+  const [isHovered, setIsHovered] = useState(false);
 
   const priorityColorClass = (priority: string) => {
     switch (priority) {
@@ -133,8 +134,13 @@ const Task: React.FC<TaskProps> = ({
               <>
                 <div className={styles.flexRow2}>
                   <div className={styles.taskDetails}>
-                    <button className={styles.deleteBtn} onClick={onDelete}>
-                      <DeleteIcon />
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={onDelete}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    >
+                      <DeleteIcon color={isHovered ? "#c52b44" : "#aaa"} />
                     </button>
                     <button className={styles.completeBtn} disabled>
                       Concluído
@@ -150,8 +156,13 @@ const Task: React.FC<TaskProps> = ({
               <>
                 <div className={styles.flexRow2}>
                   <div className={styles.taskDetails}>
-                    <button className={styles.deleteBtn} onClick={onDelete}>
-                      <DeleteIcon />
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={onDelete}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    >
+                      <DeleteIcon color={isHovered ? "#c52b44" : "#fff"} />
                     </button>
                     <button onClick={handleEdit}>Editar</button>
                   </div>
