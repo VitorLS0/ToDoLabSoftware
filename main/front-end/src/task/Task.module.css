@@ -1,0 +1,124 @@
+.task {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the left */
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 10px;
+  width: 30rem;
+  background-color: #363738;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.task h2, h3, h4, h5 {
+  margin-top: 0; /* Remove the top margin */
+  margin-bottom: 0rem; /* Adjust the bottom margin */
+}
+
+.task p {
+  margin-bottom: 1rem; /* Adjust the bottom margin */
+}
+
+button {
+  margin: 0;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.flexRow2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  width: 30rem;
+}
+
+.taskTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 30.5rem;
+}
+
+.taskDetails {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.taskActions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 0; /* Remove the bottom margin */
+}
+
+.priority {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.priorityHigh {
+  background-color: #c52b44;
+}
+
+.priorityMedium {
+  background-color: #f9a825;
+}
+
+.priorityLow {
+  background-color: #4caf50;
+}
+
+.priorityDefault {
+  background-color: #bdbdbd;
+}
+
+.completed {
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+.deleteBtn {
+  border-radius: 0px;
+  border: 0px solid transparent;
+  padding: 0;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.deleteBtn:hover {
+  border-color: #c52b44;
+}
+
+.completeBtn:hover {
+  border-color: #4caf50;
+}
+
+.completeBtn:disabled:hover {
+  border-color: #aaa;
+}
+
+.deleteIcon:hover {
+  color: #c52b44;
+}
