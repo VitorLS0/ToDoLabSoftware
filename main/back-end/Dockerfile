@@ -1,4 +1,4 @@
-# Use a base image with Java and Maven installed
+# Use a base image with Java and Maven installed for building
 FROM maven:3.8.1-openjdk-17-slim AS build
 
 # Set the working directory in the container
@@ -17,7 +17,7 @@ COPY ./main/back-end/src ./src
 RUN mvn package -DskipTests
 
 # Create a separate stage for the runtime image
-FROM adoptopenjdk/openjdk17:alpine-jre
+FROM openjdk:17-jdk-alpine
 
 # Set the working directory in the container
 WORKDIR /app
