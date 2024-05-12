@@ -1,8 +1,32 @@
-FROM maven:3.8.5-openjdk-17 AS build
-COPY . .
-RUN mvn clean package -DskipTests
+# Use a base image with Java and Maven installed
+FROM maven:3.8.1-openjdk-17-slim AS build
 
-FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /target/ToDoLabSoftware-0.0.1-SNAPSHOT.jar ToDoLabSoftware.jar
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the Maven configuration file
+COPY ./main/back-end/pom.xml ./
+
+# Download the Maven dependencies
+RUN mvn dependency:go-offline
+
+# Copy the rest of the application code
+COPY ./main/back-end/src ./src
+
+# Build the application
+RUN mvn package -DskipTests
+
+# Create a separate stage for the runtime image
+FROM adoptopenjdk/openjdk17:alpine-jre
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the packaged JAR file from the previous stage
+COPY --from=build /app/target/ToDoLabSoftware.jar ./
+
+# Expose the port that your Spring Boot application uses (usually 8080)
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","demo.jar"]
+
+# Command to run the Spring Boot application
+CMD ["java", "-jar", "ToDoLabSoftware.jar"]
