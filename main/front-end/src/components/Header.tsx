@@ -23,14 +23,16 @@ const Header = () => {
     switch (status) {
       case "SPECIFIC_DATE":
         return (
-          <div>
+          <div className={styles.formGroup}>
             <input
+              className={styles.input}
               type="date"
               placeholder="Task Due Date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
             />
             <input
+              className={styles.input}
               type="time"
               placeholder="Task Due Time"
               value={dueTime}
@@ -40,8 +42,9 @@ const Header = () => {
         );
       case "COUNTED_DAYS":
         return (
-          <div>
+          <div className={styles.formGroup}>
             <input
+              className={styles.input}
               type="number"
               placeholder="Days Until Term"
               value={daysUntilTerm}
@@ -93,41 +96,46 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <button onClick={toggleForm}>Nova Tarefa</button>
-      {showForm && (
-        <form onSubmit={(e) => createTask(e)}>
-          <input
-            type="text"
-            placeholder="Título"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Descrição"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            <option value="HIGH">Alta</option>
-            <option value="MEDIUM">Média</option>
-            <option value="LOW">Baixa</option>
-          </select>
+      <button className={styles.button} onClick={toggleForm}>Nova Tarefa</button>
+      <div className={`${styles.formContainer} ${showForm ? styles.show : ""}`}>
+        {showForm && (
+          <form className={styles.form} onSubmit={(e) => createTask(e)}>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Título"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Descrição"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <select
+              className={styles.select}
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+            >
+              <option value="HIGH">Alta</option>
+              <option value="MEDIUM">Média</option>
+              <option value="LOW">Baixa</option>
+            </select>
 
-          <select value={status} onChange={handleTaskTypeChange}>
-            <option value="">Selecionar tipo de tarefa</option>
-            <option value="NO_ESTIMATED_TIME">Sem prazo</option>
-            <option value="SPECIFIC_DATE">Data específica</option>
-            <option value="COUNTED_DAYS">Dias até o prazo</option>
-          </select>
+            <select className={styles.select} value={status} onChange={handleTaskTypeChange}>
+              <option value="">Selecionar tipo de tarefa</option>
+              <option value="NO_ESTIMATED_TIME">Sem prazo</option>
+              <option value="SPECIFIC_DATE">Data específica</option>
+              <option value="COUNTED_DAYS">Dias até o prazo</option>
+            </select>
 
-          {status && renderFormFields()}
-          <button type="submit">Criar Tarefa</button>
-        </form>
-      )}
+            {status && renderFormFields()}
+            <button className={styles.button} type="submit">Criar Tarefa</button>
+          </form>
+        )}
+      </div>
     </header>
   );
 };
