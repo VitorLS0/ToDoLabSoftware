@@ -8,9 +8,10 @@ interface TaskProps {
   title: string;
   description: string;
   dateTime: string;
-  daysUntilTerm: number;
+  daysUntilTerm?: number;
   priority: string;
   completed: boolean;
+  status: string;
   onEdit: () => void;
   onDelete: () => void;
   onComplete: () => void;
@@ -24,6 +25,7 @@ const Task: React.FC<TaskProps> = ({
   daysUntilTerm,
   priority,
   completed,
+  status,
   onEdit,
   onDelete,
   onComplete,
@@ -79,6 +81,7 @@ const Task: React.FC<TaskProps> = ({
         daysUntilTerm: daysUntilTerm,
         priority: priority,
         completed: completed,
+        status: status,
       })
       .then(() => {
         setEditing(false);
@@ -147,8 +150,10 @@ const Task: React.FC<TaskProps> = ({
                     </button>
                   </div>
                   <div className={styles.taskDetails}>
-                    <h4>Prazo: {formattedDateTime}</h4>
-                    <h5>- {daysUntilTerm} dias restantes</h5>
+                    <h4>{formattedDateTime}</h4>
+                    {status === "COUNTED_DAYS" && daysUntilTerm !== undefined && (
+                      <h5>{daysUntilTerm} dias restantes</h5>
+                    )}
                   </div>
                 </div>
               </>
@@ -168,8 +173,10 @@ const Task: React.FC<TaskProps> = ({
                   </div>
 
                   <div className={styles.taskDetails}>
-                    <h4>Prazo: {formattedDateTime}</h4>
-                    <h5>- {daysUntilTerm} dias restantes</h5>
+                    <h4>{formattedDateTime}</h4>
+                    {status === "COUNTED_DAYS" && daysUntilTerm !== undefined && (
+                      <h5>{daysUntilTerm} dias restantes</h5>
+                    )}
                   </div>
                 </div>
               </>

@@ -16,6 +16,7 @@ const TaskList: React.FC = () => {
     daysUntilTerm: number;
     priority: PriorityType;
     completed: boolean;
+    status: string;
   }
 
   useEffect(() => {
@@ -87,6 +88,7 @@ const TaskList: React.FC = () => {
             daysUntilTerm={task.daysUntilTerm}
             priority={task.priority}
             completed={task.completed}
+            status={task.status}
             onEdit={() => fetchTasks()}
             onDelete={() => onDelete(task.id)}
             onComplete={() => onComplete(task.id)}
